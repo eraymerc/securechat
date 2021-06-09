@@ -15,7 +15,7 @@ public class App {
 
         loop: while (true) {
             System.out.print(">");
-            String command = sc.next();
+            String command = sc.nextLine();
 
             String[] args = command.split(" ");
 
@@ -28,8 +28,10 @@ public class App {
                     break loop;
                 case "sunucu":
                     new Server(Integer.parseInt(args[1]));
+                    break;
                 case "baglan":
                     new Client();
+                    break;
                 default:
                     System.out.println("Geçersiz Komut! Komutlar için \"yardım\" yazın.");
                     break;
