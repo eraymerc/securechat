@@ -1,25 +1,33 @@
-package main;
+package main
 
-import "fmt";
-//import "strings";
-
-
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
 
 func main() {
 
 	fmt.Println("--Eray Mercan--\neraymercan616@gmail.com")
 	fmt.Println("--komutlar için yazın, yardım")
+	fmt.Print(">")
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
 
-	for true{
+		command := scanner.Text()
 
-		var command string;
-		fmt.Scanln(&command);
-		switch command {
+		args := strings.Split(command, " ")
+
+		switch args[0] {
 		case "yardım":
 			fmt.Println("sunucu {port} : Portta sunucu açar")
 		case "sunucu":
-			fmt.Println("sexz")
+			server := Server(1234)
+		default:
+			fmt.Println("Geçersiz Komut! Komutlar için yazın, yardım.")
 		}
+		fmt.Print(">")
 	}
-	
+
 }
