@@ -1,17 +1,21 @@
 package server;
 
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 
 public class Server {
 
-    private int port;
+
     private ArrayList<Socket> clients;
     private ServerSocket serverSocket;
 
     public Server(int port) {
-        this.port = port;
 
         try {
             serverSocket = new ServerSocket(port);
@@ -34,4 +38,19 @@ public class Server {
             thread.start();
         }
     }
+
+    public synchronized void sendChatMessageToAll(String msg) throws IOException {
+		for(Iterator<Socket> it=clients.iterator(); it.hasNext();)
+		{
+			Socket client = it.next();
+			if( !client.isClosed() )
+			{
+				PrintWriter pw = new PrintWriter(client.getOutputStream());
+				pw.println(msg);
+				pw.flush();
+				//System.out.println("Sent to: " + client.getRemoteSocketAddress());
+			}
+		}
+	}
+
 }
