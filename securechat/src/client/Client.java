@@ -7,6 +7,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import javax.crypto.Cipher;
+
+import encryption.*;
 
 public class Client implements Runnable {
 
@@ -18,28 +21,33 @@ public class Client implements Runnable {
 	private int port;
 	private String nick;
 	private int color;
+
 	public static final String ANSI_RESET = (char) 0x1b + "[0m";
 	private String[] colors = { (char) 0x1b + "[31m", (char) 0x1b + "[32m", (char) 0x1b + "[33m", (char) 0x1b + "[34m",
 			(char) 0x1b + "[35m", (char) 0x1b + "[36m" };
 
-	public Client() throws IOException {
+	public Client() throws Exception {
 		initialize();
 	}
 
-	private void initialize() throws IOException {
+	private void initialize() throws Exception {
 		// get server address
 		Scanner keyboard = new Scanner(System.in);
 
-		System.out.println("Sunucu ip adresi ne?");
+		System.out.println("\u001b[33mSunucu ip adresi ne?\u001b[0m");
+		System.out.print(">");
 		String str = keyboard.next();
 
-		System.out.println("Sunucu portu ne?");
+		System.out.println("\u001b[33mSunucu portu ne?\u001b[0m");
+		System.out.print(">");
 		port = keyboard.nextInt();
 
-		System.out.println("Adın ne?");
+		System.out.println("\u001b[33mAdın ne?\u001b[0m");
+		System.out.print(">");
 		nick = keyboard.next();
 
-		System.out.println("Rengin ne?\n1 : kırmızı | 2 : yeşil\n3 : sarı | 4 : mavi\n5 : pembe | 6 : turkuaz");
+		System.out.println("\u001b[33mRengin ne?\n\u001b[31m1 : kırmızı \u001b[0m| \u001b[32m2 : yeşil\n\u001b[33m3 : sarı    \u001b[0m| \u001b[34m4 : mavi\n\u001b[35m5 : mor     \u001b[0m| \u001b[36m6 : turkuaz\u001b[0m");
+		System.out.print(">");
 		color = keyboard.nextInt();
 
 		// connect to server
@@ -47,9 +55,9 @@ public class Client implements Runnable {
 		try {
 			host = InetAddress.getByName(str);
 		} catch (UnknownHostException e1) {
-			System.out.println("Sunucu bulunamadı :\'(");
+			System.out.println("\u001b[31mSunucu bulunamadı :\'(\u001b[0m");
 		}
-		System.out.println("Bağlandın! : " + host.getHostAddress());
+		System.out.println("\u001b[32mBağlandın! : " + host.getHostAddress()+"\u001b[0m");
 
 		link = null;
 		try {
@@ -57,7 +65,7 @@ public class Client implements Runnable {
 			link.setReuseAddress(true);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("bulunamadı");
+			System.out.println("\u001b[31mbulunamadı\u001b[0m");
 		}
 		inputStream = new Scanner(link.getInputStream());
 		outputStream = new PrintWriter(link.getOutputStream());
@@ -67,20 +75,32 @@ public class Client implements Runnable {
 		Thread t = new Thread(this);
 		t.start();
 
+		RSA rsa = new RSA();
+		System.out.println("\u001b[33mUmumi Anahtar Yollanıyor...\u001b[0m");
+		String base64PublicKey = rsa.getPublicKeyBase64();
+		outputStream.println(base64PublicKey);
+		System.out.println("\u001b[32mUmumi Anahtar Yollandı!\u001b[0m");
+		new AES(rsa.decrypt(inputStream.nextLine()));
 		// continuously listen your user input
 		while (keyboard.hasNextLine()) {
 			String msg = keyboard.nextLine();
-
-			outputStream.println(colors[color - 1] + nick + ANSI_RESET + " : " + msg);
+			
+			outputStream.println(AES.aes(Cipher.ENCRYPT_MODE , colors[color - 1] + nick + ANSI_RESET + " : " + msg));
 			outputStream.flush();
 		}
+		keyboard.close();
 	}
 
 	@Override
 	public void run() {
 		while (true) {
 			if (inputStream.hasNextLine())
-				System.out.println(inputStream.nextLine());
+				try {
+					System.out.println(AES.aes(Cipher.DECRYPT_MODE,inputStream.nextLine()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 }

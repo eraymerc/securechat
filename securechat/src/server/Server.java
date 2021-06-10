@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
+
 public class Server {
 
 
@@ -29,6 +30,7 @@ public class Server {
 
     public void startServer() throws IOException {
         System.out.println("Server aktif!");
+        
         while (true) {
             Socket client = serverSocket.accept();
             clients.add(client);

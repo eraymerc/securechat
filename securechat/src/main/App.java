@@ -1,17 +1,19 @@
 package main;
 
 import java.util.Scanner;
-import java.io.IOException;
+import java.io.PrintStream;
+
 import client.Client;
 import server.Server;
 
 public class App {
 
-    public static void main(String[] a) throws IOException{
+    public static void main(String[] a) throws Exception {
+        System.setOut(new PrintStream(System.out, true, "utf-8"));
+        System.out.println("\u001b[33m--Eray Mercan--\neraymercan616@gmail.com");
+        System.out.println("Yardım için \"yardim\" yazın\u001b[0m");
 
-        System.out.println("--Eray Mercan--\neraymercan616@gmail.com");
-        System.out.println("Yardım için \"yardim\" yazın");
-        Scanner sc = new Scanner(System.in,"UTF-8");
+        Scanner sc = new Scanner(System.in);
 
         loop: while (true) {
             System.out.print(">");
@@ -21,8 +23,11 @@ public class App {
 
             switch (args[0]) {
                 case "yardim":
+                    System.out.println("kapat : programı kapatır.");
+                    System.out.println("baglan : sunucuya bağlanır.");
                     System.out.println("sunucu {port} : Sunucuyu portta başlatır.");
                     System.out.println("dosya {klasör konumu} : Gelen dosyaların atılacağı klasörü seçer.");
+                    
                     break;
                 case "kapat":
                     break loop;
@@ -33,7 +38,7 @@ public class App {
                     new Client();
                     break;
                 default:
-                    System.out.println("Geçersiz Komut! Komutlar için \"yardım\" yazın.");
+                    System.out.println("\u001b[31mGeçersiz Komut! Komutlar için \"yardim\" yazın.\u001b[0m");
                     break;
             }
 
