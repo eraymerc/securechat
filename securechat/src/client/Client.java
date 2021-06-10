@@ -7,16 +7,20 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+
 public class Client implements Runnable {
 
-  // why is the ChatClient Multi-threaded?
+	// why is the ChatClient Multi-threaded?
 
 	private Socket link;
 	private PrintWriter outputStream;
 	private Scanner inputStream;
 	private int port;
 	private String nick;
-    private int color;
+	private int color;
+	public static final String ANSI_RESET = (char) 0x1b + "[0m";
+	private String[] colors = { (char) 0x1b + "[31m", (char) 0x1b + "[32m", (char) 0x1b + "[33m", (char) 0x1b + "[34m",
+			(char) 0x1b + "[35m", (char) 0x1b + "[36m" };
 
 	public Client() throws IOException {
 		initialize();
@@ -29,24 +33,23 @@ public class Client implements Runnable {
 		System.out.println("Sunucu ip adresi ne?");
 		String str = keyboard.next();
 
-        System.out.println("Sunucu portu ne?");
+		System.out.println("Sunucu portu ne?");
 		port = keyboard.nextInt();
 
 		System.out.println("Adın ne?");
 		nick = keyboard.next();
 
-        System.out.println("Rengin ne?\n1 : kırmızı | 2 : yeşil\n3 : sarı | 4 : mavi\n5 : pembe | 6 : turkuaz");
-        color = keyboard.nextInt();
+		System.out.println("Rengin ne?\n1 : kırmızı | 2 : yeşil\n3 : sarı | 4 : mavi\n5 : pembe | 6 : turkuaz");
+		color = keyboard.nextInt();
 
 		// connect to server
 		InetAddress host = null;
 		try {
 			host = InetAddress.getByName(str);
 		} catch (UnknownHostException e1) {
-			System.out.println("Host not found");
+			System.out.println("Sunucu bulunamadı :\'(");
 		}
-		System.out
-				.println("You are now connected to: " + host.getHostAddress());
+		System.out.println("Bağlandın! : " + host.getHostAddress());
 
 		link = null;
 		try {
@@ -54,7 +57,7 @@ public class Client implements Runnable {
 			link.setReuseAddress(true);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("not found");
+			System.out.println("bulunamadı");
 		}
 		inputStream = new Scanner(link.getInputStream());
 		outputStream = new PrintWriter(link.getOutputStream());
@@ -67,7 +70,8 @@ public class Client implements Runnable {
 		// continuously listen your user input
 		while (keyboard.hasNextLine()) {
 			String msg = keyboard.nextLine();
-			outputStream.println(nick + " says: " + msg);
+
+			outputStream.println(colors[color - 1] + nick + ANSI_RESET + " : " + msg);
 			outputStream.flush();
 		}
 	}

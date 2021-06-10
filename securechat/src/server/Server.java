@@ -15,7 +15,7 @@ public class Server {
     private ArrayList<Socket> clients;
     private ServerSocket serverSocket;
 
-    public Server(int port) {
+    public Server(int port) throws IOException {
 
         try {
             serverSocket = new ServerSocket(port);
@@ -24,6 +24,7 @@ public class Server {
             System.out.println(e.getStackTrace());
         }
         clients = new ArrayList<Socket>();
+        startServer();
     }
 
     public void startServer() throws IOException {

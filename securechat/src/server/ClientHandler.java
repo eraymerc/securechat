@@ -11,13 +11,13 @@ public class ClientHandler implements Runnable {
     private Scanner inputStream;
 
     public static final String ANSI_RESET = "\u001B[0m";
-    private String[] colors = {"\u001B[30m","\u001B[31m","\u001B[32m","\u001B[33m","\u001B[34m","\u001B[35m","\u001B[36m","\u001B[37m"};
+    //private String[] colors = {"\u001B[30m","\u001B[31m","\u001B[32m","\u001B[33m","\u001B[34m","\u001B[35m","\u001B[36m","\u001B[37m"};
 
     public ClientHandler(Socket client, Server server) {
         this.client = client;
         this.server = server;
     }
-
+    @Override
     public void run() {
 		try {
 			inputStream = new Scanner(client.getInputStream());

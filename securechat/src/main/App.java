@@ -28,7 +28,7 @@ public class App {
                     break loop;
                 case "sunucu":
                     new Server(Integer.parseInt(args[1]));
-                    break;
+                    break loop;
                 case "baglan":
                     new Client();
                     break;
