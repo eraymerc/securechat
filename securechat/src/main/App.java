@@ -10,7 +10,7 @@ public class App {
 
     public static void main(String[] a) throws Exception {
         System.setOut(new PrintStream(System.out, true, "utf-8"));
-        System.out.println("\u001b[33m--Eray Mercan--\neraymercan616@gmail.com");
+        System.out.println("\u001b[1m\u001b[33m--Eray Mercan--\neraymercan616@gmail.com");
         System.out.println("Yardım için \"yardim\" yazın\u001b[0m");
 
         Scanner sc = new Scanner(System.in);
@@ -24,8 +24,9 @@ public class App {
             switch (args[0]) {
                 case "yardim":
                     System.out.println("kapat : programı kapatır.");
-                    System.out.println("baglan : sunucuya bağlanır.");
+                    System.out.println("baglan {ip}@{port}: sunucuya bağlanır.");
                     System.out.println("sunucu {port} : Sunucuyu portta başlatır.");
+                    System.out.println("dosya {klasör konumu} : Gelen dosyaların atılacağı klasörü seçer.");
                     System.out.println("dosya {klasör konumu} : Gelen dosyaların atılacağı klasörü seçer.");
                     
                     break;

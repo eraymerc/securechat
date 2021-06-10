@@ -20,6 +20,8 @@ public class Server {
 
     public Server(int port) throws Exception {
 
+        AES.setPassword(30);
+        System.out.println("\u001b[32mŞifreleme Anahtarı Oluşturuldu!\u001b[0m");
         try {
             serverSocket = new ServerSocket(port);
             serverSocket.setReuseAddress(true);
@@ -27,18 +29,18 @@ public class Server {
             System.out.println(e.getStackTrace());
         }
         clients = new ArrayList<Socket>();
+        System.out.println("\u001b[32mSunucu Aktif!\u001b[0m");
         startServer();
     }
 
     public void startServer() throws Exception {
-        System.out.println("Server aktif!");
-        AES.setPassword(30);
-        System.out.println("Şifreleme Anahtarı Oluşturuldu!.");
+
+        
         while (true) {
             Socket client = serverSocket.accept();
             clients.add(client);
-            System.out.println("Bağlandı : " + client.getRemoteSocketAddress());
-            System.out.println("Bağlantı Sayısı : " + clients.size());
+            System.out.println("\u001b[33mBağlandı : " + client.getRemoteSocketAddress());
+            System.out.println("Bağlantı Sayısı : " + clients.size()+"\u001b[0m");
             ClientHandler handler = new ClientHandler(client,this);
             Thread thread = new Thread(handler);
             thread.start();
