@@ -26,8 +26,8 @@ public class App {
                     System.out.println("kapat : programı kapatır.");
                     System.out.println("baglan {ip}@{port}: sunucuya bağlanır.");
                     System.out.println("sunucu {port} : Sunucuyu portta başlatır.");
-                    System.out.println("dosya {klasör konumu} : Gelen dosyaların atılacağı klasörü seçer.");
-                    System.out.println("dosya {klasör konumu} : Gelen dosyaların atılacağı klasörü seçer.");
+                    System.out.println("dosya {klasör konumu} : Gelen dosyaların atılacağı klasörü ayarlar.");
+                    System.out.println("kayit {klasör konumu} : Kayıt defterlerinin bulunduğu klasörü ayarlar.");
                     
                     break;
                 case "kapat":
