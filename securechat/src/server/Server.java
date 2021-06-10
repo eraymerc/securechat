@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import encryption.AES;
+
 
 
 public class Server {
@@ -16,7 +18,7 @@ public class Server {
     private ArrayList<Socket> clients;
     private ServerSocket serverSocket;
 
-    public Server(int port) throws IOException {
+    public Server(int port) throws Exception {
 
         try {
             serverSocket = new ServerSocket(port);
@@ -28,9 +30,10 @@ public class Server {
         startServer();
     }
 
-    public void startServer() throws IOException {
+    public void startServer() throws Exception {
         System.out.println("Server aktif!");
-        
+        AES.setPassword(30);
+        System.out.println("Şifreleme Anahtarı Oluşturuldu!.");
         while (true) {
             Socket client = serverSocket.accept();
             clients.add(client);

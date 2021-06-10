@@ -63,7 +63,7 @@ public class RSA {
         Cipher encryptCipher = Cipher.getInstance("RSA");
         encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
-        byte[] secretBytes = secret.getBytes("utf-8");
+        byte[] secretBytes = secret.getBytes();
         byte[] encrypted = encryptCipher.doFinal(secretBytes);
         String encoded = Base64.getEncoder().encodeToString(encrypted);
         return encoded;

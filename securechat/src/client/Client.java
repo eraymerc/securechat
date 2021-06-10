@@ -72,16 +72,21 @@ public class Client implements Runnable {
 
 		// start new thread to listen from server
 		// one runnable, two threads... in which cases is this legal?
-		Thread t = new Thread(this);
-		t.start();
+
 
 		RSA rsa = new RSA();
 		System.out.println("\u001b[33mUmumi Anahtar Yollanıyor...\u001b[0m");
 		String base64PublicKey = rsa.getPublicKeyBase64();
+		
 		outputStream.println(base64PublicKey);
+		outputStream.flush();
 		System.out.println("\u001b[32mUmumi Anahtar Yollandı!\u001b[0m");
-		new AES(rsa.decrypt(inputStream.nextLine()));
+
+		String aesPass = rsa.decrypt(inputStream.nextLine());
+		AES.setPassword(aesPass);
 		// continuously listen your user input
+		Thread t = new Thread(this);
+		t.start();
 		while (keyboard.hasNextLine()) {
 			String msg = keyboard.nextLine();
 			
@@ -98,7 +103,6 @@ public class Client implements Runnable {
 				try {
 					System.out.println(AES.aes(Cipher.DECRYPT_MODE,inputStream.nextLine()));
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}

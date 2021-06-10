@@ -26,18 +26,18 @@ public class AES {
 
     private static String sifre;
 
-    public AES() throws Exception {
+    public static void setPassword() throws Exception {
         generateRandomKey(10);
         setKey();
     }
 
-    public AES(int passLength) throws Exception {
+    public static void setPassword(int passLength) throws Exception {
         generateRandomKey(passLength);
         setKey();
     }
 
-    public AES(String sifre) throws Exception {
-        this.sifre = sifre;
+    public static void setPassword(String _sifre) throws Exception {
+        sifre = _sifre;
         setKey();
     }
 

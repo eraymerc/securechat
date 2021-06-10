@@ -26,19 +26,20 @@ public class ClientHandler implements Runnable {
 			inputStream = new Scanner(client.getInputStream());
 			String publicKey = inputStream.nextLine();
 			
-			System.out.println(publicKey);
+			
 			outputStream = new PrintWriter(client.getOutputStream());
+
 			outputStream.println(RSA.encrypt(AES.getSifre(), publicKey));
+			outputStream.flush();
 			while (true) {
 				if (!inputStream.hasNext())
 					return;
 				String chatLine = inputStream.nextLine();
-				System.out.println(client.getRemoteSocketAddress() + " said: " + chatLine);
+				System.out.println(client.getRemoteSocketAddress() + " -> " +  AES.aes(2, chatLine));
 				server.sendChatMessageToAll(chatLine);
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
