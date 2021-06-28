@@ -1,3 +1,2 @@
 # securechat
- Secure chat program made with java
-
+An encrypted communication program that made with Java.
